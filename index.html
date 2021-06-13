@@ -478,6 +478,11 @@
 
             setDisplay('quiz', 'none');
             setDisplay('menu', 'block');
+
+            document.getElementById('explanation').innerHTML = '';
+            document.getElementById('quiz_result').innerHTML = '';
+            document.getElementById('quiz_result').className = '';
+
             setElementViewVisibility(false, true, true, true, true);
         }
 
@@ -512,7 +517,7 @@
         }
 
         // 解説を設定
-        function setEditorial(correct, element) {
+        function setExplanation(correct, element) {
             const resultClassName = correct ? "correct_sign" : "incorrect_sign";
             document.getElementById('quiz_result').className = resultClassName;
             document.getElementById('quiz_result').innerText = correct ? '正解' : '不正解';
@@ -529,7 +534,7 @@
                 default:
                     break;
             }
-            document.getElementById('editorial').innerHTML = msg;
+            document.getElementById('explanation').innerHTML = msg;
         }
 
         // 現在のクイズのモードに対応する答えを返す
@@ -556,7 +561,7 @@
                 setAttribute(elementCookieKey(quizMode, currentElement), "WA");
             }
             document.quizOperationBoard.answer.value = "";
-            setEditorial(response == getCurrentAnswerKey(), currentElement);
+            setExplanation(response == getCurrentAnswerKey(), currentElement);
             appendAnsweredQuestion(response);
             updateElementsTable();
             showElementRandomly();
@@ -568,7 +573,6 @@
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
 
-        
 
         // 画面上部に指定した元素の情報を表示する
         function showElement(ele) {
@@ -624,7 +628,7 @@
 
     <div id="quiz" style="display: none">
         <p>
-            <span id="quiz_result"></span> <span id="editorial"></span>
+            <span id="quiz_result"></span> <span id="explanation"></span>
         </p>
         <form name="quizOperationBoard" onsubmit="return false;">
             <input type="text" name="answer">
