@@ -438,6 +438,10 @@
         }
 
         function buildErrata() {
+            if(answeredQuestions.length == 0) {
+                document.getElementById('quiz_result_table').innerHTML = '';
+                return;
+            }
             let html = '';
             html += '<tr><th>正誤</th><th>問題</th><th>正解</th><th>あなたの回答</th></tr>';
             for(const result of answeredQuestions) {
