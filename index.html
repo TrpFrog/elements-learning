@@ -347,6 +347,56 @@
 
         //////////////////////////////////////////////////////////////// 
         //////////////////////////////////////////////////////////////// 
+        ////                 元素ランダム表示 関連                  ////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+
+        let prioritizeWrongAnswerAndUnquestioned = false; // 誤答, 未回答 を優先する
+
+        let priorityElements = Array();
+
+        function buildPriorityQuestionList() {
+            const cookieMap = getMapFromCookie();
+            const mode = getElementsTableMode();
+            priorityElements = Array();
+            for(let i = 0; i < elements.length; i++) {
+                const hasKey = cookieMap.has(elementCookieKey(mode, elements[i]));
+                if(hasKey) {
+                    const status = cookieMap.get(elementCookieKey(mode, elements[i]));
+                    if(status == "WA") {
+                        priorityElements.push(elements[i]);
+                    }
+                } else {
+                    priorityElements.push(elements[i]);
+                }
+            }
+        }
+
+        // 優先する元素を1つランダムに返す
+        function getPriorityElements() {
+            buildPriorityQuestionList();
+            if(priorityElements.length == 0) {
+                return getRandomElement(true);
+            } else {
+                return priorityElements[parseInt(Math.random() * priorityElements.length)];
+            }
+        }
+
+        // ランダムに1つ元素の情報を返す
+        function getRandomElement(enforceRandom = false) {
+            const prioritizeWA = document.quizmenu.prioritizeWA.checked;
+            if(!enforceRandom && prioritizeWA) {
+                return getPriorityElements();
+            }
+            let idx;
+            do {
+                idx = parseInt(Math.random() * 118);
+            } while(currentElement != null && currentElement.num - 1 == idx);
+            return elements[idx];
+        }
+
+        //////////////////////////////////////////////////////////////// 
+        //////////////////////////////////////////////////////////////// 
         ////                      クイズ 関連                       ////
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
@@ -421,7 +471,7 @@
         function closeQuiz() {
             quizMode = NOT_PLAYING_GAME;
             buildErrata();
-            
+
             setDisplay('quiz', 'none');
             setDisplay('menu', 'block');
             setElementViewVisibility(false, true, true, true, true);
@@ -514,14 +564,7 @@
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
 
-        // ランダムに1つ元素の情報を返す
-        function getRandomElement() {
-            let idx;
-            do {
-                idx = parseInt(Math.random() * 118);
-            } while(currentElement != null && currentElement.num - 1 == idx);
-            return elements[idx];
-        }
+        
 
         // 画面上部に指定した元素の情報を表示する
         function showElement(ele) {
@@ -589,16 +632,22 @@
     </div>
 
     <div id="menu">
-        <button onclick="showElementRandomlyForLearning()">ランダムに表示</button>
-        
+        <p>
+            <button onclick="showElementRandomlyForLearning()">ランダムに表示</button>
+        </p>
         <form name="quizmenu">
-            <select name="quizes" onchange="updateElementsTable()">
-                <option value="1">記号から日本語名</option>
-                <option value="2">記号から英語名(IUPAC名)</option>
-                <option value="3">日本語名から記号</option>
-                <option value="4">英語名(IUPAC名)から記号</option>
-            </select>
-            <input type="button" value="クイズを開始" onclick="startQuiz()">
+            <p>
+                <select name="quizes" onchange="updateElementsTable()">
+                    <option value="1">記号から日本語名</option>
+                    <option value="2">記号から英語名(IUPAC名)</option>
+                    <option value="3">日本語名から記号</option>
+                    <option value="4">英語名(IUPAC名)から記号</option>
+                </select>
+                <input type="button" value="クイズを開始" onclick="startQuiz()">
+            </p>
+            <p>
+                <input type="checkbox" name="prioritizeWA">不正解/未回答を優先的に出題
+            </p>
         </form>
 
         <p>
