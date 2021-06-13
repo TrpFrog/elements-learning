@@ -600,6 +600,11 @@
             currentElement = getRandomElement();
             showElement(currentElement);
         }
+
+        function showElementForLearning(num) {
+            if(quizMode != NOT_PLAYING_GAME) return;
+            showElement(elements[num - 1]);
+        }
     </script>
 </head>
 
