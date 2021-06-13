@@ -564,7 +564,9 @@
         // クイズに答える
         function answerQuiz() {
             const response = document.quizOperationBoard.answer.value;
-            if(response == getCurrentAnswerKey()) {
+            if(response == "") {
+                return;
+            } else if(response == getCurrentAnswerKey()) {
                 setAttribute(elementCookieKey(quizMode, currentElement), "AC");
             } else {
                 setAttribute(elementCookieKey(quizMode, currentElement), "WA");
