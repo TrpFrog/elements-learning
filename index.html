@@ -7,7 +7,6 @@
     <title>kadai5</title>
     <style>
         body {
-            margin: 0;
             padding: 0;
         }
 
@@ -51,6 +50,11 @@
         .element_table_td{
             width: 30px;
             border-radius: 5px;
+        }
+        
+        .element_table_td:hover {
+            cursor: pointer;
+            background-color: lavenderblush;
         }
 
         #element_view > p {
@@ -337,7 +341,9 @@
                         className = 'unknown_element';
                     }
 
-                    html += `<td class="element_table_td ${className}">${elements2d[i][j].symbol}</td>`;
+                    html += `<td class="element_table_td ${className}" 
+                              onclick="showElementForLearning(${elements2d[i][j].num})">
+                              ${elements2d[i][j].symbol}</td>`;
                 }
                 html += '</tr>';
             }
@@ -606,6 +612,11 @@
         function showElementRandomlyForLearning() {
             setElementViewVisibility(false, true, true, true, true);
             showElementRandomly();
+        }
+
+        function showElementForLearning(num) {
+            if(quizMode != NOT_PLAYING_GAME) return;
+            showElement(elements[num - 1]);
         }
     </script>
 
