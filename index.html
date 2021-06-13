@@ -81,6 +81,10 @@
             font-size: 1.3em;
             font-weight: bold;
         }
+
+        #quiz_result_table td {
+            padding: 0 20px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -354,6 +358,51 @@
         const JA_NAME_TO_SYMBOL = 3;
         const EN_NAME_TO_SYMBOL = 4;
 
+        let answeredQuestions = [];
+
+        function getCurrentQuestionText() {
+            switch(quizMode) {
+                case SYMBOL_TO_JA_NAME:
+                case SYMBOL_TO_EN_NAME:
+                    return currentElement.symbol;
+                case JA_NAME_TO_SYMBOL:
+                    return currentElement.jp;
+                case EN_NAME_TO_SYMBOL:
+                    return currentElement.en;
+                default:
+                    return '';
+            }
+        }
+
+        function appendAnsweredQuestion(playersAnswer) {
+            answeredQuestions.push({
+                correct: playersAnswer == getCurrentAnswerKey(),
+                question: getCurrentQuestionText(),
+                response: playersAnswer,
+                answer: getCurrentAnswerKey()
+            });
+        }
+
+        function sanitaize(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function buildErrata() {
+            let html = '';
+            html += '<tr><th>正誤</th><th>問題</th><th>正解</th><th>あなたの回答</th></tr>';
+            for(const result of answeredQuestions) {
+                html += '<tr>';
+                const className = result.correct ? 'correct_sign' : 'incorrect_sign';
+                const status = result.correct ? '正解' : '不正解';
+                html += `<td><span class="${className}">${status}</span></td>`;
+                html += `<td>${result.question}</td>`;
+                html += `<td>${result.answer}</td>`;
+                html += `<td>${sanitaize(result.response)}</td>`;
+                html += '</tr>';
+            }
+            document.getElementById('quiz_result_table').innerHTML = html;
+        }
+
         // ゲームを開始
         function startQuiz() {
             questionNumber = 0;
@@ -371,6 +420,8 @@
         // ゲームを終了
         function closeQuiz() {
             quizMode = NOT_PLAYING_GAME;
+            buildErrata();
+            
             setDisplay('quiz', 'none');
             setDisplay('menu', 'block');
             setElementViewVisibility(false, true, true, true, true);
@@ -452,6 +503,7 @@
             }
             document.quizOperationBoard.answer.value = "";
             setEditorial(response == getCurrentAnswerKey(), currentElement);
+            appendAnsweredQuestion(response);
             updateElementsTable();
             showElementRandomly();
         }
@@ -548,6 +600,10 @@
             </select>
             <input type="button" value="クイズを開始" onclick="startQuiz()">
         </form>
+
+        <p>
+            <table id="quiz_result_table" align="center"></table>
+        </p>
     </div>
 
     <div id="elements_table_wrapper">
