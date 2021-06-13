@@ -459,7 +459,7 @@
 
         // ゲームを開始
         function startQuiz() {
-            questionNumber = 0;
+            answeredQuestions = [];
             const selected = document.quizmenu.quizes.selectedIndex;
             quizMode = parseInt(document.quizmenu.quizes.options[selected].value);
 
@@ -572,7 +572,7 @@
 
         // 画面上部に指定した元素の情報を表示する
         function showElement(ele) {
-            document.getElementById('question_number').innerText = '第' + questionNumber + '問';
+            document.getElementById('question_number').innerText = '第' + (answeredQuestions.length + 1) + '問';
             document.getElementById('element_view_number').innerText = 'No.' + ele.num;
             document.getElementById('element_view_symbol').innerText = ele.symbol;
             document.getElementById('element_view_en').innerText = ele.en;
@@ -593,10 +593,8 @@
         }
 
         let currentElement;
-        let questionNumber = 0;
         function showElementRandomly() {
             currentElement = getRandomElement();
-            questionNumber++;
             showElement(currentElement);
         }
 
