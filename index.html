@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <title>kadai5</title>
+    <title>元素記号学習サイト</title>
     <style>
         body {
+            margin: 50px 0;
             padding: 0;
         }
 
@@ -439,10 +440,12 @@
             });
         }
 
+        // 入力された文字列にコードが埋め込まれていても無害な文字列に変換する
         function sanitaize(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        // 正誤表を作る
         function buildErrata() {
             if(answeredQuestions.length == 0) {
                 document.getElementById('quiz_result_table').innerHTML = '';
