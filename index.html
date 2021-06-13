@@ -243,18 +243,6 @@
             const expTime = presentDay.toGMTString(); // ここまで有効期限の計算
             document.cookie = key + "=" + escape(val) + "; expires=" + expTime; // 登録 
         }
-        
-        // Cookieに登録されたあるキーの値を返す
-        function getAttribute(attr) {
-            let map = getMapFromCookie();
-            return map.get(attr);
-        }
-
-        // Cookieにその属性が存在するかを返す
-        function cookieContains(attr) {
-            let map = getMapFromCookie();
-            return map.has(attr) && map.get(attr) != '';
-        }
 
         // クイズのモードとそれに対応する元素のキー名を取得
         function elementCookieKey(mode, element) {
@@ -612,14 +600,7 @@
             currentElement = getRandomElement();
             showElement(currentElement);
         }
-
-        function showElementForLearning(num) {
-            if(quizMode != NOT_PLAYING_GAME) return;
-            showElement(elements[num - 1]);
-        }
     </script>
-
-    <script type="text/javascript" id="script_area"></script>
 </head>
 
 <body style="text-align:center">
