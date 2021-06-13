@@ -613,12 +613,6 @@
             showElement(currentElement);
         }
 
-        // 学習用に元素をランダムに表示
-        function showElementRandomlyForLearning() {
-            setElementViewVisibility(false, true, true, true, true);
-            showElementRandomly();
-        }
-
         function showElementForLearning(num) {
             if(quizMode != NOT_PLAYING_GAME) return;
             showElement(elements[num - 1]);
@@ -655,7 +649,7 @@
 
     <div id="menu">
         <p>
-            <button onclick="showElementRandomlyForLearning()">ランダムに表示</button>
+            <button onclick="showElementRandomly()">ランダムに表示</button>
         </p>
         <form name="quizmenu">
             <p>
@@ -684,7 +678,8 @@
 
     <script>
         updateElementsTable();
-        showElementRandomlyForLearning();
+        setElementViewVisibility(false, true, true, true, true);
+        showElementRandomly();
     </script>
 </body>
 
