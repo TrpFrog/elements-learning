@@ -61,8 +61,7 @@ function updateElementsTable() {
             }
 
             html += `<td class="element_table_td ${className}" 
-                      onclick="showElementForLearning(${elements2d[i][j].num})">
-                      ${elements2d[i][j].symbol}</td>`;
+                      onclick="showElementForLearning(${elements2d[i][j].num})">${elements2d[i][j].symbol}</td>`;
         }
         html += '</tr>';
     }
