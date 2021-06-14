@@ -1,0 +1,21 @@
+.correct_sign {
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    background-color: rgb(92, 184, 92);
+    color: white;
+}
+
+.incorrect_sign {
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    background-color: rgb(240, 173, 78);
+    color: white;
+}
+
+#quiz_result_table td {
+    padding: 0 20px;
+}

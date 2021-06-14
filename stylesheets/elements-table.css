@@ -1,0 +1,27 @@
+.unknown_element {
+    font-weight: normal;
+    background-color: aliceblue;
+    color: gray;
+}
+
+.remembered_element {
+    font-weight: bold;
+    background-color: honeydew;
+    color: green;
+}
+
+.wrong_answered_element {
+    background-color: lightyellow;
+    font-weight: bold;
+    color: orange;
+}
+
+.element_table_td{
+    width: 30px;
+    border-radius: 5px;
+}
+
+.element_table_td:hover {
+    cursor: pointer;
+    background-color: lavenderblush;
+}
