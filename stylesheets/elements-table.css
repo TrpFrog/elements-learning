@@ -19,6 +19,16 @@
 .element_table_td{
     width: 30px;
     border-radius: 5px;
+    padding: 2px;
+}
+
+@media(max-width: 500px) {
+    .element_table_td{
+        max-width: 18px;
+        border-radius: 2px;
+        padding: 2px 0;
+        font-size: 6px;
+    }
 }
 
 .element_table_td:hover {

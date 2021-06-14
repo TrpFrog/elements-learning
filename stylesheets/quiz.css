@@ -19,3 +19,8 @@
 #quiz_result_table td {
     padding: 0 20px;
 }
+@media(max-width: 500px) {
+    #quiz_result_table td {
+        padding: 0;
+    }
+}
