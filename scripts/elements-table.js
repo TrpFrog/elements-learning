@@ -16,6 +16,19 @@ function getElementsTableMode() {
     }
 }
 
+const UNKNOWN_ELEMENT = 0;
+const REMEMBERED_ELEMENT = 1;
+const WRONG_ANSWERED_ELEMENT = 2;
+function elementStatus(mode, ele, cookieMap) {
+    const hasKey = cookieMap.has(elementCookieKey(mode, ele));
+    if(hasKey) {
+        const status = cookieMap.get(elementCookieKey(mode, ele));
+        return status == 'AC' ? REMEMBERED_ELEMENT : WRONG_ANSWERED_ELEMENT;
+    } else {
+        return UNKNOWN_ELEMENT;
+    }
+}
+
 // 周期表の内容を更新
 function updateElementsTable() {
 
@@ -40,12 +53,11 @@ function updateElementsTable() {
 
             // 正解であれば緑、不正解であればオレンジ、未挑戦ならば灰色で表示
             let className;
-            const hasKey = cookieMap.has(elementCookieKey(mode, elements2d[i][j]));
-            if(hasKey) {
-                const status = cookieMap.get(elementCookieKey(mode, elements2d[i][j]));
-                className = status == 'AC' ? 'remembered_element' : 'wrong_answered_element';
-            } else {
-                className = 'unknown_element';
+            switch(elementStatus(mode, elements2d[i][j], cookieMap)) {
+                case UNKNOWN_ELEMENT:        className = 'unknown_element'; break;
+                case REMEMBERED_ELEMENT:     className = 'remembered_element'; break;
+                case WRONG_ANSWERED_ELEMENT: className = 'wrong_answered_element'; break;
+                default: className = ''; break;
             }
 
             html += `<td class="element_table_td ${className}" 
