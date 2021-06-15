@@ -21,6 +21,21 @@ function getCurrentQuestionText() {
     }
 }
 
+function getQuizModeName(mode) {
+    switch(mode) {
+        case SYMBOL_TO_JA_NAME:
+            return "記号→日本語";
+        case SYMBOL_TO_EN_NAME:
+            return "記号→英語";
+        case JA_NAME_TO_SYMBOL:
+            return "日本語→記号";
+        case EN_NAME_TO_SYMBOL:
+            return "英語→記号";
+        default:
+            return "";
+    }
+}
+
 function appendAnsweredQuestion(playersAnswer) {
     answeredQuestions.push({
         correct: playersAnswer == getCurrentAnswerKey(),
@@ -37,10 +52,6 @@ function sanitaize(str) {
 
 // 正誤表を作る
 function buildErrata() {
-    if(answeredQuestions.length == 0) {
-        document.getElementById('quiz_result_table').innerHTML = '';
-        return;
-    }
     let html = '';
     html += '<tr><th>正誤</th><th>問題</th><th>正解</th><th>あなたの回答</th></tr>';
     for(const result of answeredQuestions) {
@@ -54,6 +65,22 @@ function buildErrata() {
         html += '</tr>';
     }
     document.getElementById('quiz_result_table').innerHTML = html;
+}
+
+function buildShareButton() {
+    const numberOfQuestions = answeredQuestions.length;
+    const numberOfCorrectQuestions = answeredQuestions.filter(q => q.correct).length;
+    const accuracyRate = 100.0 * numberOfCorrectQuestions / numberOfQuestions;
+
+    const msg = `元素記号クイズ (${getQuizModeName(quizMode)}) で `
+            + `${numberOfQuestions} 問中 ${numberOfCorrectQuestions} 問正解しました！ `
+            + `(正解率 ${accuracyRate.toFixed(1)}%)\n`
+            + `#element_quiz https://www.trpfrog.net/elements-learning`;
+    console.log(msg);
+
+    const html = `<button onclick="window.location.href='https://twitter.com/intent/tweet?text=${encodeURIComponent(msg)}'" 
+                   class="twitter-share-button" data-show-count="false">結果をツイート</button>`;
+    document.getElementById('tweet_button').innerHTML = html;
 }
 
 // ゲームを開始
@@ -72,8 +99,11 @@ function startQuiz() {
 
 // ゲームを終了
 function closeQuiz() {
+    if(answeredQuestions.length > 0) {
+        buildErrata();
+        buildShareButton();
+    }
     quizMode = NOT_PLAYING_GAME;
-    buildErrata();
 
     setDisplay('quiz', 'none');
     setDisplay('menu', 'block');

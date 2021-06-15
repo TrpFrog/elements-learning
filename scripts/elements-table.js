@@ -1,18 +1,6 @@
 // クイズのモードに対応する周期表のタイトルを取得する
 function getElementTableTitle(mode) {
-    const title = "覚えた元素表 ";
-    switch(mode) {
-        case SYMBOL_TO_JA_NAME:
-            return title + "(記号→日本語)";
-        case SYMBOL_TO_EN_NAME:
-            return title + "(記号→英語)";
-        case JA_NAME_TO_SYMBOL:
-            return title + "(日本語→記号)";
-        case EN_NAME_TO_SYMBOL:
-            return title + "(英語→記号)";
-        default:
-            return "";
-    }
+    return `覚えた元素表 (${getQuizModeName(mode)})`;
 }
 
 // 周期表で表示する情報の種類を取得
