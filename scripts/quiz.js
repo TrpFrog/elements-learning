@@ -75,7 +75,7 @@ function buildShareButton() {
     const msg = `元素記号クイズ (${getQuizModeName(quizMode)}) で `
             + `${numberOfQuestions} 問中 ${numberOfCorrectQuestions} 問正解しました！ `
             + `(正解率 ${accuracyRate.toFixed(1)}%)\n`
-            + `#element_quiz https://www.trpfrog.net/elements-learning`;
+            + `#element_quiz https://trpfrog.github.io/elements-learning`;
     console.log(msg);
 
     const html = `<button onclick="window.location.href='https://twitter.com/intent/tweet?text=${encodeURIComponent(msg)}'" 
